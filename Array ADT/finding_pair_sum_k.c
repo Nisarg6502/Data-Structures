@@ -28,31 +28,23 @@ void Display(struct Array arr)
     }
 }
 
-void Duplicate(struct Array arr)
+void Duplicate(struct Array arr, int k)
 {
-    for (int i = 0; i < arr.size; i++)
+    for (int i = 0; i < arr.size - 1; i++)
     {
-        int count = 1;
-        if (arr.A[i] != -1)
+        for (int j = i + 1; j < arr.size; j++)
         {
-            for (int j = i + 1; j < arr.size; j++)
+            if (arr.A[i] + arr.A[j] == k)
             {
-                if (arr.A[i] == arr.A[j])
-                {
-                    count++;
-                    arr.A[j] = -1;
-                }
-            }
-            if (count > 1)
-            {
-                printf("The duplicated element: %d\nRepetitions: %d\n", arr.A[i], count);
+                printf("Pair is: %d and %d", arr.A[i], arr.A[j]);
             }
         }
     }
 }
 
-void DuplicateHash(struct Array arr)
+void DuplicateHash(struct Array arr, int k)
 {
+    printf("chal rha hai");
     int max = Max(arr);
     int hashArr[max + 1];
     for (int i = 0; i <= max; i++)
@@ -61,14 +53,11 @@ void DuplicateHash(struct Array arr)
     }
     for (int i = 0; i < arr.size; i++)
     {
-        hashArr[arr.A[i]]++;
-    }
-    for (int i = 0; i <= max; i++)
-    {
-        if (hashArr[i] > 1)
+        if (hashArr[abs(k - arr.A[i])] != 0 && abs(k - arr.A[i]) > 0)
         {
-            printf("Hash Duplicate element: %d\n Repetition: %d\n", i, hashArr[i]);
+            printf("\n%d + %d = %d\n", arr.A[i], k - arr.A[i], k);
         }
+        hashArr[arr.A[i]]++;
     }
 }
 
@@ -85,7 +74,10 @@ int main()
         scanf("%d", &arr.A[i]);
     }
     Display(arr);
-    DuplicateHash(arr);
-    Duplicate(arr);
+    int k;
+    printf("Enter sum");
+    scanf("%d", &k);
+    DuplicateHash(arr, k);
+    // Duplicate(arr, k);
     return 0;
 }
