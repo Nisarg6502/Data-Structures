@@ -26,44 +26,57 @@ void Create(int A[], int n)
     }
 }
 
-void Search(struct Node *p, int key)
+int Count(struct Node *p)
 {
-    int ch = key;
+    int count = 0;
     while (p)
     {
-        if (p->data == ch)
-        {
-            printf("Element found");
-        }
+        count++;
         p = p->next;
     }
+    return count;
 }
 
-struct Node *LSearch(struct Node *p, int key)
+void Insert(struct Node *p, int index, int x)
 {
-    struct Node *q;
-    while (p)
+
+    struct Node *t;
+    if (index < 0 || index > Count(p))
     {
-        if (key == p->data)
-        {
-            q->next = p->next;
-            p->next = first;
-            first = p;
-            return p;
-        }
-        q = p;
-        p = p->next;
+        return;
     }
-    return NULL;
+    t = (struct Node *)malloc(sizeof(struct Node));
+    t->data = x;
+    if (index == 0)
+    {
+        t->next = first;
+        first = t;
+    }
+    else if (index == Count(p))
+    {
+        for (int i = 0; i < Count(p); i++)
+        {
+            p = p->next;
+        }
+        p->next = t;
+        t->next = NULL;
+    }
+    else
+    {
+        for (int i = 0; i < index - 1; i++)
+        {
+            p = p->next;
+            t->next = p->next;
+            p->next = t;
+        }
+    }
 }
 
 void Display(struct Node *p)
 {
-    int count = 0;
-    while (p != NULL)
+    
     {
         printf("%d ", p->data);
-        count++;
         p = p->next;
     }
 }
@@ -73,9 +86,8 @@ int main()
     int A[] = {6, 13, 22, 1989, 2002};
     Create(A, 5);
     Display(first);
-    Search(first, 11);
-    struct Node *temp;
-    temp = LSearch(first, 1989);
-    printf("\n\n%dFound", temp->data);
+    Insert(first, 3, 15);
+    printf("\n");
+    Display(first);
     return 0;
 }
